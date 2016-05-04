@@ -1,0 +1,8 @@
+{
+  "name": "dustjs-express",
+  "version": "0.0.1",
+  "description": "dust.js view engine for express",
+  "main": "index.js",
+  "author": "Marco Comes <marco.comes@studenti.unimi.it>",
+  "license": "MIT"
+}
