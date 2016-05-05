@@ -27,6 +27,12 @@ var options = {
 };
 var render = dustjsExpress.engine();
 
+var reloadModule = function() {
+    delete require.cache[require.resolve('../index.js')];
+    dustjsExpress = require('../index.js');
+    render = dustjsExpress.engine();
+};
+
 describe('Single template', function() {
     it('should throw an error if the template does not exist', function(done) {
         render(templates.nonexistent, options, function(err) {
@@ -85,9 +91,7 @@ describe('Partials', function() {
 
 describe('Templates cache', function() {
     beforeEach(function(done) {
-        delete require.cache[require.resolve('../index.js')];
-        dustjsExpress = require('../index.js');
-        render = dustjsExpress.engine();
+        reloadModule();
 
         done();
     });
@@ -117,9 +121,7 @@ describe('Templates cache', function() {
 
 describe('Custom template file extension', function() {
     before(function(done) {
-        delete require.cache[require.resolve('../index.js')];
-        dustjsExpress = require('../index.js');
-        render = dustjsExpress.engine();
+        reloadModule();
         options.settings['view engine'] = 'tpl';
 
         done();
