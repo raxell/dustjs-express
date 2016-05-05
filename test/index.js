@@ -21,6 +21,8 @@ var options = {
 };
 var render = dustjsExpress.engine();
 
+dust.config.cache = false;
+
 describe('Single template', function() {
     it('should throw an error if the template does not exist', function(done) {
         render(templates.nonexistent, options, function(err) {
@@ -30,35 +32,15 @@ describe('Single template', function() {
         });
     });
 
-    it('should read the template from disk if cache is disabled', function(done) {
-        dust.config.cache = false;
-        dust.cache = {};
-
-        render(templates.hello, options, function(err, output) {
-            if (err) {
-                console.log(err)
-            }
-
-            dust.cache.should.be.empty();
-            output.should.be.equal('Hello Marco');
-
-            done();
-        });
-    });
-
-    it('should read the template from cache if it is enabled', function(done) {
-        dust.config.cache = true;
-        dust.cache = {};
-
+    it('should retrieve and render the template code from the given path', function(done) {
         render(templates.hello, options, function(err, output) {
             if (err) {
                 console.log(err);
             }
 
-            dust.cache.should.have.property(templates.hello);
             output.should.be.equal('Hello Marco');
 
             done();
-        })
+        });
     });
 });
