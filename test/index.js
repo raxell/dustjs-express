@@ -82,3 +82,35 @@ describe('Partials', function() {
         });
     });
 });
+
+describe('Templates cache', function() {
+    beforeEach(function(done) {
+        delete require.cache[require.resolve('../index.js')];
+        dustjsExpress = require('../index.js');
+        render = dustjsExpress.engine();
+
+        done();
+    });
+
+    it('should load templates from disk if cache is disabled', function(done) {
+        options.settings['view cache'] = false;
+
+        render(templates.hello, options, function(err, output) {
+            dust.config.cache.should.be.false();
+            dust.cache.should.be.empty();
+
+            done();
+        });
+    });
+
+    it('should load templates from cache if it is enabled', function(done) {
+        options.settings['view cache'] = true;
+
+        render(templates.hello, options, function(err, output) {
+            dust.config.cache.should.be.true();
+            dust.cache.should.have.property(templates.hello);
+
+            done();
+        });
+    });
+});
