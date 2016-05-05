@@ -27,8 +27,6 @@ var options = {
 };
 var render = dustjsExpress.engine();
 
-dust.config.cache = false;
-
 describe('Single template', function() {
     it('should throw an error if the template does not exist', function(done) {
         render(templates.nonexistent, options, function(err) {
