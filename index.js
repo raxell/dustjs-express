@@ -6,33 +6,26 @@ var path = require('path');
 
 var views;
 
-var exists = function(path) {
-    var stat;
+var dustjsExpress = module.exports = {};
 
-    try {
-        stat = fs.statSync(path);
-    }
-    catch(e) {}
+dustjsExpress.engine = function engine() {
+    return function(template, options, callback) {
+        if (!views) {
+            views = options.settings.views;
 
-    return stat && stat.isFile();
-};
-
-var lookup = function(template) {
-    if (path.extname(template) !== '.dust') {
-        template += '.dust';
-    }
-
-    var templatePath;
-
-    for (var i = 0; i < views.length && !templatePath; i++) {
-        templatePath = path.join(views[i], template);
-
-        if (!exists(templatePath)) {
-            templatePath = undefined;
+            if (!Array.isArray(views)) {
+                views = [views];
+            }
         }
-    }
 
-    return templatePath;
+        dust.render(template, options, function(err, output) {
+            if (err) {
+                return callback(err);
+            }
+
+            callback(err, output);
+        });
+    };
 };
 
 dust.onLoad = function(template, callback) {
@@ -57,24 +50,31 @@ dust.onLoad = function(template, callback) {
     });
 };
 
-module.exports = {
-    engine: function() {
-        return function(template, options, callback) {
-            if (!views) {
-                views = options.settings.views;
-
-                if (!Array.isArray(views)) {
-                    views = [views];
-                }
-            }
-
-            dust.render(template, options, function(err, output) {
-                if (err) {
-                    return callback(err);
-                }
-
-                callback(err, output);
-            });
-        };
+function lookup(template) {
+    if (path.extname(template) !== '.dust') {
+        template += '.dust';
     }
+
+    var templatePath;
+
+    for (var i = 0; i < views.length && !templatePath; i++) {
+        templatePath = path.join(views[i], template);
+
+        if (!exists(templatePath)) {
+            templatePath = undefined;
+        }
+    }
+
+    return templatePath;
+};
+
+function exists(path) {
+    var stat;
+
+    try {
+        stat = fs.statSync(path);
+    }
+    catch(e) {}
+
+    return stat && stat.isFile();
 };
