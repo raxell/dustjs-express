@@ -12,22 +12,7 @@ var dustjsExpress = module.exports = {};
 
 dustjsExpress.engine = function engine() {
     return function(template, options, callback) {
-        if (!views) {
-            views = options.settings.views;
-
-            if (!Array.isArray(views)) {
-                views = [views];
-            }
-        }
-
-        if (!ext) {
-            ext = '.' + options.settings['view engine'];
-        }
-
-        if (!isCacheSet) {
-            dust.config.cache = options.settings['view cache'] || false;
-            isCacheSet = true;
-        }
+        checkSettings(options.settings);
 
         dust.render(template, options, function(err, output) {
             if (err) {
@@ -60,6 +45,25 @@ dust.onLoad = function(template, callback) {
         callback(null, data);
     });
 };
+
+function checkSettings(settings) {
+    if (!views) {
+        views = settings.views;
+
+        if (!Array.isArray(views)) {
+            views = [views];
+        }
+    }
+
+    if (!ext) {
+        ext = '.' + settings['view engine'];
+    }
+
+    if (!isCacheSet) {
+        dust.config.cache = settings['view cache'] || false;
+        isCacheSet = true;
+    }
+}
 
 function lookup(template) {
     if (path.extname(template) !== ext) {
