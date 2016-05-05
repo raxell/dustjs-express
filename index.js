@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 
 var views;
+var ext;
 var isCacheSet = false;
 
 var dustjsExpress = module.exports = {};
@@ -17,6 +18,10 @@ dustjsExpress.engine = function engine() {
             if (!Array.isArray(views)) {
                 views = [views];
             }
+        }
+
+        if (!ext) {
+            ext = '.' + options.settings['view engine'];
         }
 
         if (!isCacheSet) {
@@ -57,8 +62,8 @@ dust.onLoad = function(template, callback) {
 };
 
 function lookup(template) {
-    if (path.extname(template) !== '.dust') {
-        template += '.dust';
+    if (path.extname(template) !== ext) {
+        template += ext;
     }
 
     var templatePath;
