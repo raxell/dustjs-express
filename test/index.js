@@ -119,6 +119,9 @@ describe('Templates cache', function() {
 
 describe('Custom template file extension', function() {
     before(function(done) {
+        delete require.cache[require.resolve('../index.js')];
+        dustjsExpress = require('../index.js');
+        render = dustjsExpress.engine();
         options.settings['view engine'] = 'tpl';
 
         done();
