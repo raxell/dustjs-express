@@ -10,7 +10,8 @@ var templates = {
     helloPartial:       path.join(__dirname, 'views/hello_partial.dust'),
     helloInlinePartial: path.join(__dirname, 'views/hello_inline_partial.dust'),
     nonexistentPartial: path.join(__dirname, 'views/nonexistent_partial.dust'),
-    nonexistent:        path.join(__dirname, 'nonexistent')
+    nonexistent:        path.join(__dirname, 'nonexistent'),
+    helloPartialCustom: path.join(__dirname, 'views/hello_partial2.tpl')
 };
 var options = {
     settings: {
@@ -19,6 +20,7 @@ var options = {
             path.join(__dirname, 'views'),
             path.join(__dirname, 'partials')
         ],
+        'view engine': 'dust',
         'view cache': false
     },
     name: 'Marco'
@@ -109,6 +111,26 @@ describe('Templates cache', function() {
         render(templates.hello, options, function(err, output) {
             dust.config.cache.should.be.true();
             dust.cache.should.have.property(templates.hello);
+
+            done();
+        });
+    });
+});
+
+describe('Custom template file extension', function() {
+    before(function(done) {
+        options.settings['view engine'] = 'tpl';
+
+        done();
+    });
+
+    it('should search the templates using a custom file extension', function(done) {
+        render(templates.helloPartialCustom, options, function(err, output) {
+            if (err) {
+                console.log(err);
+            }
+
+            output.should.be.equal('Hello Marco');
 
             done();
         });
