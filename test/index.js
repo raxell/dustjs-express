@@ -6,14 +6,18 @@ var path = require('path');
 var should = require('should');
 
 var templates = {
-    hello: path.join(__dirname, 'views/hello.dust'),
-    nonexistent: path.join(__dirname, 'nonexistent')
+    hello:              path.join(__dirname, 'views/hello.dust'),
+    helloPartial:       path.join(__dirname, 'views/hello_partial.dust'),
+    helloInlinePartial: path.join(__dirname, 'views/hello_inline_partial.dust'),
+    nonexistentPartial: path.join(__dirname, 'views/nonexistent_partial.dust'),
+    nonexistent:        path.join(__dirname, 'nonexistent')
 };
 var options = {
     settings: {
         'views': [
             __dirname,
-            path.join(__dirname, 'views')
+            path.join(__dirname, 'views'),
+            path.join(__dirname, 'partials')
         ],
         'view cache': false
     },
@@ -34,6 +38,40 @@ describe('Single template', function() {
 
     it('should retrieve and render the template code from the given path', function(done) {
         render(templates.hello, options, function(err, output) {
+            if (err) {
+                console.log(err);
+            }
+
+            output.should.be.equal('Hello Marco');
+
+            done();
+        });
+    });
+});
+
+describe('Partials', function() {
+    it('should throw an error if the partial does not exist', function(done) {
+        render(templates.nonexistentPartial, options, function(err) {
+            err.should.exist;
+
+            done();
+        });
+    });
+
+    it('should lookup partials in multiple directories', function(done) {
+        render(templates.helloPartial, options, function(err, output) {
+            if (err) {
+                console.log(err);
+            }
+
+            output.should.be.equal('Hello Marco');
+
+            done();
+        });
+    });
+
+    it('should lookup inline partials in multiple directories', function(done) {
+        render(templates.helloInlinePartial, options, function(err, output) {
             if (err) {
                 console.log(err);
             }
