@@ -4,5 +4,13 @@
   "description": "dust.js view engine for express",
   "main": "index.js",
   "author": "Marco Comes <marco.comes@studenti.unimi.it>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "should": "^8.3.1"
+  },
+  "dependencies": {
+    "dustjs-helpers": "^1.7.3",
+    "dustjs-linkedin": "^2.7.2"
+  }
 }
