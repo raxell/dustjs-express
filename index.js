@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 
 var views;
+var isCacheSet = false;
 
 var dustjsExpress = module.exports = {};
 
@@ -16,6 +17,11 @@ dustjsExpress.engine = function engine() {
             if (!Array.isArray(views)) {
                 views = [views];
             }
+        }
+
+        if (!isCacheSet) {
+            dust.config.cache = options.settings['view cache'] || false;
+            isCacheSet = true;
         }
 
         dust.render(template, options, function(err, output) {
