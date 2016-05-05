@@ -72,7 +72,7 @@ function lookup(template) {
     }
 
     return templatePath;
-};
+}
 
 function exists(path) {
     var stat;
@@ -83,4 +83,4 @@ function exists(path) {
     catch(e) {}
 
     return stat && stat.isFile();
-};
+}

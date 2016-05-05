@@ -3,17 +3,17 @@
   "version": "0.0.1",
   "description": "dust.js view engine for express",
   "main": "index.js",
-    "keywords": [
-        "dust",
-        "dustjs",
-        "dust.js",
-        "express",
-        "expressjs",
-        "express.js",
-        "node",
-        "nodejs",
-        "node.js"
-    ],
+  "keywords": [
+    "dust",
+    "dustjs",
+    "dust.js",
+    "express",
+    "expressjs",
+    "express.js",
+    "node",
+    "nodejs",
+    "node.js"
+  ],
   "author": "Marco Comes <marco.comes@studenti.unimi.it>",
   "license": "MIT",
   "devDependencies": {
