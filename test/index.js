@@ -11,7 +11,8 @@ var templates = {
     helloInlinePartial: path.join(__dirname, 'views/hello_inline_partial.dust'),
     nonexistentPartial: path.join(__dirname, 'views/nonexistent_partial.dust'),
     nonexistent:        path.join(__dirname, 'nonexistent'),
-    helloPartialCustom: path.join(__dirname, 'views/hello_partial2.tpl')
+    helloPartialCustom: path.join(__dirname, 'views/hello_partial2.tpl'),
+    helloHelper:        path.join(__dirname, 'views/hello_helper.dust')
 };
 var options = {
     settings: {
@@ -129,6 +130,20 @@ describe('Custom template file extension', function() {
 
     it('should search the templates using a custom file extension', function(done) {
         render(templates.helloPartialCustom, options, function(err, output) {
+            if (err) {
+                console.log(err);
+            }
+
+            output.should.be.equal('Hello Marco');
+
+            done();
+        });
+    });
+});
+
+describe('Helpers', function() {
+    it('should use the global helpers', function(done) {
+        render(templates.helloHelper, options, function(err, output) {
             if (err) {
                 console.log(err);
             }
