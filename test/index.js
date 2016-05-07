@@ -3,7 +3,7 @@
 var dust = require('dustjs-linkedin');
 var dustjsExpress = require('../index.js');
 var path = require('path');
-var should = require('should');
+var assert = require('chai').assert;
 
 var templates = {
     hello:              path.join(__dirname, 'views/hello.dust'),
@@ -37,7 +37,7 @@ var reloadModule = function() {
 describe('Single template', function() {
     it('should throw an error if the template does not exist', function(done) {
         render(templates.nonexistent, options, function(err) {
-            err.should.exist;
+            assert.isNotNull(err);
 
             done();
         });
@@ -49,7 +49,7 @@ describe('Single template', function() {
                 console.log(err);
             }
 
-            output.should.be.equal('Hello Marco');
+            assert.strictEqual(output, 'Hello Marco');
 
             done();
         });
@@ -59,7 +59,7 @@ describe('Single template', function() {
 describe('Partials', function() {
     it('should throw an error if the partial does not exist', function(done) {
         render(templates.nonexistentPartial, options, function(err) {
-            err.should.exist;
+            assert.isNotNull(err);
 
             done();
         });
@@ -71,7 +71,7 @@ describe('Partials', function() {
                 console.log(err);
             }
 
-            output.should.be.equal('Hello Marco');
+            assert.strictEqual(output, 'Hello Marco');
 
             done();
         });
@@ -83,7 +83,7 @@ describe('Partials', function() {
                 console.log(err);
             }
 
-            output.should.be.equal('Hello Marco');
+            assert.strictEqual(output, 'Hello Marco');
 
             done();
         });
@@ -101,8 +101,8 @@ describe('Templates cache', function() {
         options.settings['view cache'] = false;
 
         render(templates.hello, options, function(err, output) {
-            dust.config.cache.should.be.false();
-            dust.cache.should.be.empty();
+            assert.isFalse(dust.config.cache);
+            assert.deepEqual(dust.cache, {});
 
             done();
         });
@@ -112,8 +112,8 @@ describe('Templates cache', function() {
         options.settings['view cache'] = true;
 
         render(templates.hello, options, function(err, output) {
-            dust.config.cache.should.be.true();
-            dust.cache.should.have.property(templates.hello);
+            assert.isTrue(dust.config.cache);
+            assert.property(dust.cache, templates.hello);
 
             done();
         });
@@ -134,7 +134,7 @@ describe('Custom template file extension', function() {
                 console.log(err);
             }
 
-            output.should.be.equal('Hello Marco');
+            assert.strictEqual(output, 'Hello Marco');
 
             done();
         });
@@ -148,7 +148,7 @@ describe('Helpers', function() {
                 console.log(err);
             }
 
-            output.should.be.equal('Hello Marco');
+            assert.strictEqual(output, 'Hello Marco');
 
             done();
         });
