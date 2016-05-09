@@ -1,7 +1,7 @@
 'use strict';
 
 var dust = require('dustjs-linkedin');
-var dustjsExpress = require('../index.js');
+var dustjsExpress = require('../lib/dust_express.js');
 var path = require('path');
 var assert = require('chai').assert;
 
@@ -29,8 +29,8 @@ var options = {
 var render = dustjsExpress.engine();
 
 var reloadModule = function() {
-    delete require.cache[require.resolve('../index.js')];
-    dustjsExpress = require('../index.js');
+    delete require.cache[require.resolve('../lib/dust_express.js')];
+    dustjsExpress = require('../lib/dust_express.js');
     render = dustjsExpress.engine();
 };
 
