@@ -1,6 +1,6 @@
 {
   "name": "dustjs-express",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Dust.js view engine for Express",
   "main": "./lib/dust_express.js",
   "repository": {
